@@ -5,19 +5,18 @@ import Instagramrequest from '../screens/Instagramrequest'
 import Succesverify from '../screens/Succesverify'
 import Verifyhandle from '../screens/Verifyhandle'
 import Unsuccesverify from '../screens/Unsuccesverify'
-
+// import Facebookverify from '../screens/VerifyFb'
 
 function Root() {
     return (
-        <>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/verifyhandle" element={<Verifyhandle />} />
-                <Route path="/instagramrequest" element={<Instagramrequest />} />
-                <Route path='/success' element={<Succesverify />} />
-                <Route path='/unverify' element={<Unsuccesverify />} />
-            </Routes>
-        </>
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/verifyhandle" element={<Verifyhandle />} />
+            <Route path="/instagramrequest" element={<Instagramrequest />} />
+            {/* <Route path ="/fb-verify" element={<Facebookverify/>}/> */}
+            <Route path='/success' element={<Succesverify />} />
+            <Route path='/unverify' element={<Unsuccesverify />} />
+        </Routes>
     )
 }
 

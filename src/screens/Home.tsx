@@ -1,8 +1,11 @@
 import React from 'react'
 import g5logo from '../assets/g5logo.svg'
 import myntralogo from "../assets/myntralogo.svg"
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
+    const navigate = useNavigate();
+    
     return (
         <>
             <div style={{ padding: "20px 24px" }} >
@@ -46,6 +49,7 @@ function Home() {
                 }}
             >
                 <button
+                    onClick={() => navigate('/verifyhandle')}
                     style={{
                         padding: "16px 14px",
                         border: "1px solid rgba(246, 246, 246, 0.17)",

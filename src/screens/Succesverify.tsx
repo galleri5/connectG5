@@ -5,6 +5,7 @@ import tickicon from '../assets/tickicon.svg'
 // import facebookimage from "../assets/facebookimage.svg"
 // import shareimage from "../assets/shareimage.svg"
 import myntralogo from "../assets/myntralogo.svg"
+import { toast } from 'react-toastify';
 
 
 
@@ -23,6 +24,12 @@ function Succesverify() {
 
             <div style={{ display: "flex", flexDirection: "column", gap: "20px", alignItems: "center", marginTop: "20px", width: "100%" }}>
                 <button style={{ padding: "12px 20px", border: "1px solid rgba(246, 246, 246, 0.17)", borderRadius: "8px", background: "#FAC912", width: "100%", color: "black", marginTop: "8px" }}>VIEW POST LINKS</button>
+                <button 
+                    onClick={() => toast.success("Successfully accepted to sell!")}
+                    style={{ padding: "12px 20px", border: "1px solid rgba(246, 246, 246, 0.17)", borderRadius: "8px", background: "#FAC912", width: "100%", color: "black", marginTop: "8px" }}
+                >
+                    ACCEPT TO SELL
+                </button>
                 <p style={{ fontSize: "14px", fontWeight: "400", color: "#C0C0C0", }}>CLICK THE BUTTON ABOVE</p>
 
             </div>
