@@ -5,8 +5,8 @@ import facebookimage from "../assets/facebookimage.svg"
 import instaimage from "../assets/instagramimage.svg"
 import verfiy from "../assets/verifyimage.svg"
 import shareimage from "../assets/shareimage.svg"
-import useFacebookSDK from "../hooks/useFacebook.jsx";
-import { useNavigate } from 'react-router-dom';
+import useFacebookSDK from "../hooks/useFacebook.jsx"
+import { useNavigate } from 'react-router-dom'
 
 
 const vwhyVerifySteps = [
@@ -62,28 +62,32 @@ function Verifyhandle() {
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "20px" }}>
                 <img style={{ width: "72px", height: "72px" }} src={tickicon} alt="g5 logo" />
                 <p style={{ fontSize: "18px", fontWeight: "700", color: "#FAC912", textAlign: "center", }}>AWESOME!</p>
-                <p style={{ fontSize: "14px", fontWeight: "400", color: "#BB9400", textAlign: "center", lineHeight: "21px" }}>FEW STEPS TO SELL YOUR CONTENT AND EARN IN 24 HOURS OF APPROVAL</p>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "start", gap: "10px" }}>
+                    <p style={{ fontSize: "14px", fontWeight: "400", color: "#BB9400", }}>.Few more steps and youre ready to unlock your content for sale!</p>
+                    <p style={{ fontSize: "14px", fontWeight: "400", color: "#BB9400", }}>.Validate your Instagram account</p>
+                </div>
+
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "16px", marginTop: "45px" }}>
                 <img style={{ width: "72px", height: "72px" }} src={verifyimage} alt="g5 logo" />
                 <p style={{ fontSize: "14px", fontWeight: "700", color: "#FAFAFA", textAlign: "center", }}>VERIFY THE HANDLE IS YOU!
                     VALIDATE YOUR INSTAGRAM ACCOUNT</p>
-                <p style={{ fontSize: "14px", fontWeight: "400", color: "#C0C0C0", textAlign: "center", lineHeight: "21px" }}>Click on the blue ��Verify your Insta ID’ button below to verify the ownership of the Insta handle shared in the previous page.
-                    Without verification we will not be able to buy your content. Too bad :(</p>
+                <p style={{ fontSize: "14px", fontWeight: "400", color: "#C0C0C0", textAlign: "center", lineHeight: "21px" }}>In order for you to permit access for sale of your content, we need to verify the account belongs to you. Click on the 'proceed to verify' button to start the process.
+                </p>
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginTop: "36px" }}>
-                <div 
+                <div
                     onClick={handleFBLogin}
-                    style={{ 
-                        padding: "13px 20px", 
-                        background: "#4268B3", 
-                        borderRadius: "8px", 
-                        display: "flex", 
-                        flexDirection: "row", 
-                        alignItems: "center", 
-                        gap: "12px", 
+                    style={{
+                        padding: "13px 20px",
+                        background: "#4268B3",
+                        borderRadius: "8px",
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: "12px",
                         justifyContent: "center",
                         cursor: "pointer"
                     }}
