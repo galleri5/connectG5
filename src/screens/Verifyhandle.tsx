@@ -35,17 +35,40 @@ function Verifyhandle() {
 
     const handleFBLogin = () => {
         window.FB.login(
-            (response) => {
+            function(response) {
                 if (response.authResponse && response.status === 'connected') {
                     const token = response.authResponse.accessToken;
-                    window.FB.api("/me", { fields: "name,email,picture" }, (userData) => {
-                        if (userData && !userData.error) {
+                    fetch('https://creator-app-backend.azurewebsites.net/auth/verify-user/facebook', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            fbToken: token,
+                            refId: JSON.parse(localStorage.getItem('userData') || '{}').phone
+                        })
+                    })
+                    .then(apiResponse => apiResponse.json())
+                    .then(data => {
+                        // debugger
+                        if (data.loginSuccessful) {
+                            // debugger
                             navigate('/success');
+                            // if (data.loginSuccessful) {
+                            //     navigate('/success');
+                            // } else {
+                            //     console.log("Login unsuccessful");
+                            //     navigate('/unverify');
+                            // }
                         } else {
-                            console.log("Failed to fetch user data");
+                            console.log("Login unsuccessful");
                             navigate('/unverify');
                         }
-                    });
+                    })
+                    // .catch(error => {
+                    //     console.error("API call failed:", error);
+                    //     navigate('/unverify');
+                    // });
                 } else {
                     console.log("User cancelled login or did not fully authorize.");
                     navigate('/unverify');

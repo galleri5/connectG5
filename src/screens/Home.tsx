@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 function Home() {
     const navigate = useNavigate();
     const [instaHandle, setInstaHandle] = useState<string>("")
+    const [email, setEmail] =useState<string>("")
+    const [phone, setPhone]=useState<string>("")
     const [errorMessage, setErrorMessage] = useState<string>("");
 
 
@@ -14,7 +16,7 @@ function Home() {
         const value = e.target.value;
 
         // Regular expression for Instagram handle validation
-        const instaRegex = /^(?!.*\.\.)(?!.*\.$)[a-zA-Z0-9._]{1,30}$/;
+        const instaRegex = /^(?!.*\.\.)(?!.*\.$)[a-zA-Z0-9](?!.*\.\.)[a-zA-Z0-9._]{0,28}[a-zA-Z0-9]$/;
 
         if (value === "") {
             setErrorMessage("Instagram handle cannot be empty.");
@@ -27,6 +29,36 @@ function Home() {
         }
 
         setInstaHandle(value); // Update the state with the input value
+    };
+
+    const onButtonClick = async () => {
+        try {
+            const response = await fetch('https://creator-app-backend.azurewebsites.net/public/myntra-buy-sell', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: instaHandle,
+                    email: email, // You'll need to add email state
+                    phone: phone, // You'll need to add phone state
+                }),
+            });
+    
+            if (response.ok) {
+                localStorage.setItem('userData', JSON.stringify({
+                    username: instaHandle,
+                    email: email,
+                    phone: phone
+                }));
+                navigate('/verifyhandle');
+            } else {
+                // Handle error response
+                console.error('API call failed');
+            }
+        } catch (error) {
+            console.error('Error calling API:', error);
+        }
     };
 
     return (
@@ -45,12 +77,13 @@ function Home() {
                 <div style={{ display: "flex", flexDirection: "column", gap: "36px", marginBottom: "100px" }}>
                     <div >
                         <p style={{ fontSize: "14px", fontWeight: "400", color: "#C0C0C0" }}>Email address <span style={{ fontSize: "16px", fontWeight: "600", color: "#EA3248" }}>*</span></p>
-                        <input style={{ padding: "16px 14px", border: "1px solid rgb(246 246 246 / 17%)", borderRadius: "8px", background: "#000000", width: "100%", color: "white", marginTop: "8px" }} type="email" placeholder="Enter a valid address" />
+                        <input value={email}
+        onChange={(e) => setEmail(e.target.value)} style={{ padding: "16px 14px", border: "1px solid rgb(246 246 246 / 17%)", borderRadius: "8px", background: "#000000", width: "100%", color: "white", marginTop: "8px" }} type="email" placeholder="Enter a valid address" />
                     </div>
 
                     <div>
                         <p style={{ fontSize: "14px", fontWeight: "400", color: "#C0C0C0" }}>Mobile Number <span style={{ fontSize: "16px", fontWeight: "600", color: "#EA3248" }}>*</span></p>
-                        <input style={{ padding: "16px 14px", border: "1px solid rgb(246 246 246 / 17%)", borderRadius: "8px", background: "#000000", width: "100%", color: "white", marginTop: "8px" }} type="number" placeholder="Enter your mobile number" />
+                        <input value={phone} onChange={(e) => setPhone(e.target.value)} style={{ padding: "16px 14px", border: "1px solid rgb(246 246 246 / 17%)", borderRadius: "8px", background: "#000000", width: "100%", color: "white", marginTop: "8px" }} type="number" placeholder="Enter your mobile number" />
                     </div>
 
                     <div>
@@ -74,15 +107,25 @@ function Home() {
                 }}
             >
                 <button
-                    onClick={() => navigate('/verifyhandle')}
+                    // onClick={() => navigate('/verifyhandle')}
+                    onClick={() => onButtonClick() }
+                    disabled={!email || !phone || !instaHandle}
                     style={{
                         padding: "16px 14px",
                         border: "1px solid rgba(246, 246, 246, 0.17)",
                         borderRadius: "8px",
-                        background: "#FAC912",
+                        background: !email || !phone || !instaHandle
+                            ? "#FAC91233" // Semi-transparent version of the original color
+                            : "#FAC912",
                         width: "100%",
-                        color: "black",
+                        color: !email || !phone || !instaHandle 
+                            ? "#FAC91280" // Semi-transparent text color when disabled
+                            : "black",
                         marginTop: "8px",
+                        cursor: !email || !phone || !instaHandle 
+                            ? "not-allowed" 
+                            : "pointer",
+                        opacity: !email || !phone || !instaHandle  ? 0.5 : 1,
                     }}
                 >
                     SELL YOUR CONTENT NOW
