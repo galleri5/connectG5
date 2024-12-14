@@ -13,14 +13,16 @@ function Succesverify() {
     const [showSpreadsheet, setShowSpreadsheet] = useState(false);
     const [isAccepted, setIsAccepted] = useState(false);
     const [sheetUrl, setSheetUrl] = useState<string>('');
+    const [postUrl, setPostUrl] = useState<string>('');
     const [isLoading, setIsLoading] = useState(true);
+    const [postUrls, setPostUrls] = useState<string[]>([]);
     
 
     useEffect(() => {
         const fetchSheetUrl = async () => {
             try {
                 const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-                const response = await fetch('https://creator-app-backend.azurewebsites.net/get/content-sheet', {
+                const response = await fetch('http://127.0.0.1:8080/get/content-sheet', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -35,6 +37,8 @@ function Succesverify() {
                     const data = await response.json();
                     setIsLoading(false);
                     setSheetUrl(data?.data?.content_sheet_link);
+                    // setPostUrl(data?.data?.post_link);
+                    setPostUrls(data?.data?.post_urls || []);
                 } else {
                     toast.error("Failed to fetch sheet URL");
                 }
@@ -48,15 +52,20 @@ function Succesverify() {
         fetchSheetUrl();
     }, []);
 
-    const SpreadsheetModal = () => (
+    const PostUrlsModal = () => (
         <div style={{
             position: 'fixed',
             top: 0,
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: '#000000',
-            zIndex: 1000
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            zIndex: 9999,
+            padding: '20px',
+            overflow: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
         }}>
             <button 
                 onClick={() => setShowSpreadsheet(false)}
@@ -68,19 +77,50 @@ function Succesverify() {
                     background: '#FAC912',
                     border: 'none',
                     borderRadius: '8px',
-                    zIndex: 1001
+                    zIndex: 10000,
+                    cursor: 'pointer',
+                    fontWeight: 'bold'
                 }}
             >
                 Close
             </button>
-            <iframe
-                src={sheetUrl}
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    border: 'none'
-                }}
-            />
+            <div style={{
+                marginTop: '80px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '15px',
+                width: '100%',
+                maxWidth: '600px'
+            }}>
+                {postUrls && postUrls.length > 0 ? (
+                    postUrls.map((url, index) => (
+                        <a 
+                            key={index}
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                                padding: '15px',
+                                background: '#FAC912',
+                                color: '#000000',
+                                textDecoration: 'none',
+                                borderRadius: '8px',
+                                textAlign: 'center',
+                                fontWeight: '500',
+                                fontSize: '16px',
+                                cursor: 'pointer',
+                                wordBreak: 'break-all'
+                            }}
+                        >
+                                {url}
+                        </a>
+                    ))
+                ) : (
+                    <div style={{ color: '#FAC912', textAlign: 'center' }}>
+                        No post URLs available
+                    </div>
+                )}
+            </div>
         </div>
     );
 
@@ -161,7 +201,7 @@ function Succesverify() {
 
             </div>
 
-            {showSpreadsheet && <SpreadsheetModal />}
+            {showSpreadsheet && <PostUrlsModal />}
 
 
 
