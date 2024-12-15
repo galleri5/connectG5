@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState } from 'react';
 import tickicon from "../assets/tickicon.svg"
 import verifyimage from "../assets/verifyimage.svg"
 import facebookimage from "../assets/facebookimage.svg"
@@ -32,13 +33,15 @@ function Verifyhandle() {
     const navigate = useNavigate();
     const appId = "1127693593922042";
     const isSdkLoaded = useFacebookSDK(appId);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleFBLogin = () => {
         window.FB.login(
             function(response) {
                 if (response.authResponse && response.status === 'connected') {
                     const token = response.authResponse.accessToken;
-                    fetch('https://creator-app-backend.azurewebsites.net/auth/verify-user/facebook', {
+                    setIsLoading(true);
+                    fetch('http://127.0.0.1:8080/auth/verify-user/facebook', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -53,6 +56,7 @@ function Verifyhandle() {
                         // debugger
                         if (data.loginSuccessful) {
                             // debugger
+                            setIsLoading(false);
                             navigate('/success');
                             // if (data.loginSuccessful) {
                             //     navigate('/success');
@@ -61,15 +65,18 @@ function Verifyhandle() {
                             //     navigate('/unverify');
                             // }
                         } else {
+                            setIsLoading(false);
                             console.log("Login unsuccessful");
                             navigate('/unverify');
                         }
                     })
-                    // .catch(error => {
-                    //     console.error("API call failed:", error);
-                    //     navigate('/unverify');
-                    // });
+                    .catch(error => {
+                        setIsLoading(false);
+                        // console.error("API call failed:", error);
+                        // navigate('/unverify');
+                    });
                 } else {
+                    setIsLoading(false);
                     console.log("User cancelled login or did not fully authorize.");
                     navigate('/unverify');
                 }
@@ -79,6 +86,39 @@ function Verifyhandle() {
             }
         );
     };
+
+    if (isLoading) {
+        return (
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+                flexDirection: 'column',
+                gap: '20px'
+            }}>
+                <div style={{
+                    width: '40px',
+                    height: '40px',
+                    border: '4px solid #FAC912',
+                    borderTop: '4px solid transparent',
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite'
+                }} />
+                <p style={{ color: '#FAC912', fontSize: '16px', fontWeight: '500' }}>
+                    Verifying your account...
+                </p>
+                <style>
+                    {`
+                    @keyframes spin {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                    `}
+                </style>
+            </div>
+        );
+    }
 
     return (
         <div style={{ padding: "20px 24px" }}>
