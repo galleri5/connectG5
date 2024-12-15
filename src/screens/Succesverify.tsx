@@ -22,7 +22,7 @@ function Succesverify() {
         const fetchSheetUrl = async () => {
             try {
                 const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-                const response = await fetch('http://127.0.0.1:8080/get/content-sheet', {
+                const response = await fetch('https://creator-app-backend.azurewebsites.net/get/content-sheet', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
