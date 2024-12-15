@@ -41,7 +41,7 @@ function Verifyhandle() {
                 if (response.authResponse && response.status === 'connected') {
                     const token = response.authResponse.accessToken;
                     setIsLoading(true);
-                    fetch('http://127.0.0.1:8080/auth/verify-user/facebook', {
+                    fetch('https://creator-app-backend.azurewebsites.net/auth/verify-user/facebook', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
