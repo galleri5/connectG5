@@ -167,16 +167,16 @@ function Succesverify() {
             <div style={{ display: "flex", flexDirection: "column", gap: "20px", alignItems: "center", marginTop: "20px", width: "100%" }}>
                 <button 
                     onClick={() => setShowSpreadsheet(true)}
-                    disabled={!sheetUrl || isLoading}
+                    disabled={!postUrls || isLoading}
                     style={{ 
                         padding: "12px 20px", 
                         border: "1px solid rgba(246, 246, 246, 0.17)", 
                         borderRadius: "8px", 
-                        background: (!sheetUrl || isLoading) ? "#808080" : "#FAC912", 
+                        background: (!postUrls || isLoading) ? "#808080" : "#FAC912", 
                         width: "100%", 
-                        color: (!sheetUrl || isLoading) ? "#FFFFFF" : "black", 
+                        color: (!postUrls || isLoading) ? "#FFFFFF" : "black", 
                         marginTop: "8px",
-                        cursor: (!sheetUrl || isLoading) ? "not-allowed" : "pointer"
+                        cursor: (!postUrls || isLoading) ? "not-allowed" : "pointer"
                     }}
                 >
                     {isLoading ? "LOADING..." : "VIEW POST LINKS"}
