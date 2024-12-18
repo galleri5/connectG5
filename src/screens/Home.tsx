@@ -10,17 +10,32 @@ function Home() {
     const [phone, setPhone]=useState<string>("")
     const [errorMessage, setErrorMessage] = useState<string>("");
 
+    function isValidInstagramUsername(username: string) {
+        // Basic character and length check
+        if (!/^[a-zA-Z0-9._]{1,30}$/.test(username)) return false;
+        
+        // Cannot start with period or underscore
+        if (/^[._]/.test(username)) return false;
+        
+        // Cannot end with period
+        if (/\.$/.test(username)) return false;
+        
+        // Cannot have consecutive periods
+        if (/\.{2,}/.test(username)) return false;
+        
+        return true;
+    }
 
 
     const handleInstaValue = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
 
         // Regular expression for Instagram handle validation
-        const instaRegex = /^(?!.*\.\.)(?!.*\.$)[a-zA-Z0-9](?!.*\.\.)[a-zA-Z0-9._]{0,28}[a-zA-Z0-9]$/;
+        // const instaRegex = /^(?!.*\.\.)(?!.*\.$)[a-zA-Z0-9](?!.*\.\.)[a-zA-Z0-9._]{0,28}[a-zA-Z0-9]$/;
 
         if (value === "") {
             setErrorMessage("Instagram handle cannot be empty.");
-        } else if (!instaRegex.test(value)) {
+        } else if (!isValidInstagramUsername(value)) {
             setErrorMessage(
                 "Invalid Instagram handle. Only letters, numbers, periods (.), and underscores (_) are allowed, and it cannot start or end with a period."
             );
